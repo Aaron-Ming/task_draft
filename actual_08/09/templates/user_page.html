@@ -1,0 +1,172 @@
+
+{% extends "layout_page.html" %}
+            <!-- {% block curr_user %}
+            <li><a class="animated infinite bounce">{{session.get('user',None)}}</a></li>
+            {% endblock %} -->
+{% block data_info %}
+<!-- <button id='showmsg'>
+cli
+<div clasck me
+</button>s="alert alert-success" id="ajaxmsg">
+</div> -->
+
+<!-- -->
+ <h2 class="sub-header animated bounceIn">用户管理清单</h2>
+        <!-- <button class="btn btn-info" id="getinfo">点我</button> -->
+<!--         <form id="userform" action='/add_user'>
+        <div class="input-group">
+          <span class="input-group-addon" id="username">用户名</span>
+          <input type="text" class="form-control" id="inputuser" name="user" placeholder="Username" aria-describedby="username">
+          <span class="input-group-addon" id="password">密码</span>
+          <input type="text" class="form-control" id="inputpwd" name="pwd" placeholder="password" aria-describedby="password">
+          <span class="input-group-addon"><input type='submit' id="addsubmit" value='add'></span>
+          
+        </div>
+        </form> -->
+<form class="form-inline animated bounceInLeft" id="userform" action='/add_user'>
+  <div class="form-group">
+    <label for="InputName">用户</label>
+      <input type="text" name="user" class="form-control" id="inputuser" placeholder="UserName">
+  </div>
+  <div class="form-group">
+    <label for="InputPwd">密码</label>
+      <input type="password" name="pwd" class="form-control" id="inputpwd" placeholder="Password">
+  </div>
+  <button type="submit" id="addsubmit" class="btn btn-default" required autofocus>添加
+  </button>
+</form>
+
+<table style="margin-top:20px;" class="table table-bordered table-striped animated bounceInUp">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>用户</th>
+        <th>密码</th>
+        <th>操作</th>
+        <th>密码重置</th>
+      </tr>
+    </thead>
+    <tbody id="tbody-content">
+
+
+</tbody>
+</table>
+
+<script src="./static/sweetalert-master/lib/sweet-alert.min.js"></script>
+<script src="/static/jquery.js"></script>
+
+<script>
+
+$('#addsubmit').on('click', function() {
+  var url = '/add_user?' + $('#userform').serialize()
+  console.log(url)
+  $.get(url, function(res){
+    if(res=='ok'){
+      $('#userform')[0].reset()
+      getlist()
+    }
+    else{
+      alert('error happend')
+      // sweetAlert('error happend')
+      getlist()
+    }
+  })
+  return false
+})
+
+function getlist(){
+var res = ''
+$.getJSON('/uinfo', function(res) {
+  $.each(res, function(index,value){
+    res+='<tr><td>'+(index+1)+'</td>'
+    res+='<td>'+value[1]+'</td>'
+    res+='<td>'+value[2]+'</td>'
+    res+='<td><button data-id="'+value[0]+'" class="btn btn-danger btn-xs delete-btn">删除</button></td>'
+
+    res+='<td><form acton="/update_user"><input id="uppwd'+value[0]+'" type="text" name="uppwd" value="" ><button type="submit" data-id="'+value[0]+'" style="margin-left:10px;" class="btn btn-warning btn-xs reset-btn">重置</button></form></td></tr>'
+    
+  })
+  // console.log(res)
+    $('#tbody-content').html(res)
+  })
+}
+getlist()
+
+$(document).on('click','.reset-btn',function(){
+  var id = $(this).attr('data-id')
+  // var uppwd = $(this).attr('')
+  var uppwd = $('#uppwd'+id).val()
+  console.log(id)
+  console.log(uppwd)
+  console.log('/update_user?id='+id+'&uppwd='+uppwd)
+  if(confirm('确认修改？')){
+    // console.log(id)
+    $.get('/update_user?id='+id+'&uppwd='+uppwd,function(res){
+      if(res=='ok'){
+        alert('password changed success')
+        $('#uppwd'+id)[0].reset()
+        getlist()        
+    } else if(res=='error'){
+        alert('password changed failed.')
+    }
+  })
+  }
+})
+
+
+
+$(document).on('click','.delete-btn', function(){
+  var id = $(this).attr('data-id')
+  if(confirm('确认删除？')){
+    $.get('/del_user?id='+id,function(res){
+      if(res=='ok'){
+        // alert('delete success')
+        swal('delete success')
+        getlist()
+      }
+      else if(res=='error'){
+        alert('delete failed')
+        getlist()
+      }
+      })
+  }
+})
+// #开头代表ID
+// .开头代表类
+
+// $('#username').val()
+
+// $('#commit').on('click', function() {
+//     $.get('/add_user')
+// })
+
+// 
+
+// getinfo()
+
+
+// function getinfo() {
+//   $.get('/uinfo', function(res){
+//     $('#tbody-content').html(res)
+//   })
+
+// }
+// getinfo()
+///////////////////////////////////////////##
+// $('#getinfo').on('click', function() {
+//   $.get('/uinfo', function(res){
+//     $('#tbody-content').html(res)
+//   })
+
+// })
+
+
+// $('#showmsg').on('click', function() {
+//   $.get('/testdata', function(res) {
+//     $('#ajaxmsg').html(res)
+//   })
+// }) 
+
+
+</script>
+{% endblock %}
