@@ -13,12 +13,14 @@ def testdata():
 
 @app.route('/uinfo')
 def uinfo():
-    sql = 'select * from user'
+    # sql = 'select * from user'
     res = json.dumps(dbutil.user_info())
-    # print res
-    # res = ''
-    # for line in dbutil.user_info():
-    #     res += '<tr><td>%s</td><td>%s</td><td>%s</td></tr>' % line
+    return res
+
+@app.route('/resinfo')
+def resinfo():
+    # sql = 'select * from res_mgt'
+    res = json.dumps(dbutil.res_info())
     return res
 
 
@@ -58,9 +60,7 @@ def log_page():
 
 @app.route('/user_page')
 def user_page():
-    cur_u = session.get('user', 'None')
-    user_info = dbutil.user_info()
-    return render_template('user_page.html', user_info=user_info)
+    return render_template('user_page.html')
 
 @app.route('/update_user')
 def update_user():
@@ -73,36 +73,25 @@ def update_user():
     else:
         return 'ok'
 
-# @app.route('/update_user')
-# def update_user():
-#     uppwd = request.args.get('uppwd')
-#     id = request.args.get('id')
-#     dbutil.update_user(uppwd,id)
-#     return redirect(url_for('user_page'))
-
 @app.route('/add_user')
 def add_user():
     user = request.args.get('user')
     pwd = request.args.get('pwd')
     sql = 'insert into user (username,password) values ("%s","%s")' % (user,pwd)
-    try:
-        dbutil.execute(sql)
-    except:
-        return 'error'
+    if user:
+        try:
+            dbutil.execute(sql)
+        except:
+            return 'error'
+        else:
+            return 'ok'
     else:
-        return 'ok'
+        return 'error'
 
 
-
-# @app.route('/add_user', methods=['POST'])
-# def add_user():
-#     user = request.form.get('user')
-#     pwd = request.form.get('pwd')
-#     dbutil.ins_user(user=user,pwd=pwd)
-#     return redirect(url_for('user_page'))
 @app.route('/del_user')
 def del_user():
-    id = request.args.get('id')
+    id = request.args.get('id',None)
     try:
         dbutil.del_user(id)
     except:
@@ -110,11 +99,33 @@ def del_user():
     else:
         return 'ok'
 
-# @app.route('/del_user')
-# def del_user():
-#     id = request.args.get('id')
-#     dbutil.del_user(id)
-#     return redirect(url_for('user_page'))
+@app.route('/res_mgt')
+def res_mgt():
+    return render_template('res_mgt.html')
+
+@app.route('/add_res')
+def add_res():
+    hostname = request.args.get('hostname',None)
+    cpu_core = request.args.get('cpu_core',None)
+    mem_size = request.args.get('mem_size',None)
+    val_per = request.args.get('val_per',None)
+    contacts = request.args.get('contacts',None)
+    try:
+        dbutil.ins_res(hostname,cpu_core,mem_size,val_per,contacts)
+    except:
+        return 'error'
+    else:
+        return 'ok'
+
+@app.route('/del_res')
+def del_res():
+    id = request.args.get('id')
+    try:
+        dbutil.del_res(id)
+    except:
+        return 'error'
+    else:
+        return 'ok'
 
 @app.route('/logout')
 def logout():
@@ -123,4 +134,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
-    # print uinfo()
