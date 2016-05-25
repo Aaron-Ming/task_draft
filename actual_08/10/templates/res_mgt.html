@@ -9,17 +9,32 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">新建用户</h4>
+        <h4 class="modal-title">请填写资源规格参数</h4>
       </div>
       <div class="modal-body">
-        <form class="form-inline animated bounceInLeft" id="resform" action='/add_user'>
-          <div class="form-group">
-            <label for="InputName">用户</label>
-            <input type="text" name="user" class="form-control" id="inputuser" placeholder="UserName">
+        <form class="form-inline animated bounceInLeft" id="addresform" action='/add_res'>
+          <div class="form-group" style="margin-top:5px">
+            <label for="host_name" class="add_res_form_wid">主机名</label>
+            <input type="text" name="host_name" class="form-control" id="host_name" placeholder="Hostname">
+
           </div>
-          <div class="form-group">
-            <label for="InputPwd">密码</label>
-            <input type="password" name="pwd" class="form-control" id="inputpwd" placeholder="Password">
+          <div class="form-group" style="margin-top:5px">
+            <label for="cpu_core" class="add_res_form_wid">CPU</label>
+            <input type="text" name="cpu_core" class="form-control" id="cpu_core" placeholder="Cpu numbers">
+            <div id="cpu_slider"></div>
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="mem_size" class="add_res_form_wid">内存</label>
+            <input type="text" name="mem_size" class="form-control" id="mem_size" placeholder="Memory size">
+            <div id="mem_slider"></div>
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="val_per" class="add_res_form_wid">过期时间</label>
+            <input type="text" name="val_per" class="form-control" id="val_per" placeholder="2017-09-10">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="contacts" class="add_res_form_wid">负责人</label>
+            <input type="text" name="contacts" class="form-control" id="contacts" placeholder="Aaron@outlook.com">
           </div>
         </form>
       </div>
@@ -48,47 +63,81 @@
   </tbody>
 </table>
 
-
-
 <script>
     $('#addresModal').find('.addBtn').on('click', function() {
-        var url = '/add_res?' + $('#resform').serialize()
-        console.log(url)
-        $.get(url, function(res) {
-            if (res == 'ok') {
-                $('#resform')[0].reset()
-                $('#addresModal').modal('hide')
-                swal({
-                    title: "666",
-                    text: "恭喜恭喜，添加用户成功",
-                    imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
-                })
+      var url = '/add_res?' + $('#addresform').serialize()
+      console.log(url)
+      $.get(url, function(res) {
+        if (res == 'ok') {
+          $('#addresform')[0].reset()
+          $('#addresModal').modal('hide')
+          swal({
+            title: "666",
+            text: "恭喜恭喜，资源添加成功",
+            imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
+          })
 
-                getlist()
-            } else {
-                swal("用户添加失败", "用户名不能为空哦~", "error")
-                getlist()
-            }
-        })
-        return false
+          getlist()
+        } else {
+          swal("资源添加失败", "请排查故障", "error")
+          getlist()
+        }
+      })
+      return false
     })
 
     function getlist() {
-        var res = ''
-        $.getJSON('/resinfo', function(res) {
-            $.each(res, function(index, value) {
-                res += '<tr><td>' + index + 1 + '</td>'
-                res += '<td>' + value[1] + '</td>'
-                res += '<td>' + value[2] + '</td>'
-                res += '<td>' + value[3] + '</td>'
-                res += '<td>' + value[4] + '</td>'
-                res += '<td>' + value[5] + '</td>'
-                res += '<td><button data-id="' + value[0] + '" class="btn btn-danger btn-xs delete-btn">删除</button><button type="submit" data-id="' + value[0] + '" style="margin-left:10px;" class="btn btn-warning btn-xs reset-btn" data-toggle="modal" data-target="#updateresModal">修改</button></td></tr>'
-            })
-            $('#tbody-content').html(res)
+      var res = ''
+      $.getJSON('/resinfo', function(res) {
+        $.each(res, function(index, value) {
+          res += '<tr><td>' + (index+1) + '</td>'
+          res += '<td>' + value[1] + '</td>'
+          res += '<td>' + value[2] + '</td>'
+          res += '<td>' + value[3] + '</td>'
+          res += '<td>' + value[4] + '</td>'
+          res += '<td>' + value[5] + '</td>'
+          res += '<td><button data-id="' + value[0] + '" class="btn btn-danger btn-xs delete-btn">删除</button><button type="submit" data-id="' + value[0] + '" style="margin-left:10px;" class="btn btn-warning btn-xs reset-btn" data-toggle="modal" data-target="#updateresModal">修改</button></td></tr>'
         })
+        $('#tbody-content').html(res)
+      })
     }
     getlist()
+
+
+    $('#cpu_core').on('click', function() {
+      $('#cpu_slider').slider({
+        range: 'min',
+        value: 2,
+        min: 2,
+        max: 32,
+        slide: function(event, ui) {
+          $('#cpu_core').val(ui.value);
+        }
+      });
+      $("#cpu_core").val($('#cpu_slider').slider("value"));
+    });
+
+
+    $('#mem_size').on('click', function() {
+      $('#mem_slider').slider({
+        range: 'min',
+        value: 2,
+        min: 2,
+        max: 32,
+        slide: function(event, ui) {
+          $('#mem_size').val(ui.value + "G");
+        }
+      });
+      $("#mem_size").val($('#mem_slider').slider("value") + "G");
+    });
+
+
+    $('#val_per').on('click', function() {
+      $("#val_per").datepicker({
+        changeMonth: true,
+        changeYear: true
+      })
+    })
 </script>
 
 {% endblock %}

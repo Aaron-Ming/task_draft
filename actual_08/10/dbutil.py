@@ -74,8 +74,8 @@ def res_info():
     sql = 'select * from res_mgt'
     return execute(sql)
 
-def ins_res(hostname,cpu_core,mem_size,val_per,contacts):
-    sql = 'insert into res_mgt (hostname,cpu_core,mem_size,val_per,contacts) values("%s","%s","%s","%s")' % (hostname,cpu_core,mem_size,val_per,contacts)
+def ins_res(host_name,cpu_core,mem_size,val_per,contacts):
+    sql = 'insert into res_mgt(host_name,cpu_core,mem_size,val_per,contacts) values("%s","%s","%s","%s","%s")' % (host_name,cpu_core,mem_size,val_per,contacts)
     execute(sql)
     return True
 

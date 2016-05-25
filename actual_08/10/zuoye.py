@@ -105,13 +105,14 @@ def res_mgt():
 
 @app.route('/add_res')
 def add_res():
-    hostname = request.args.get('hostname',None)
+    host_name = request.args.get('host_name',None)
     cpu_core = request.args.get('cpu_core',None)
     mem_size = request.args.get('mem_size',None)
     val_per = request.args.get('val_per',None)
     contacts = request.args.get('contacts',None)
+    print host_name,cpu_core,mem_size,val_per,contacts
     try:
-        dbutil.ins_res(hostname,cpu_core,mem_size,val_per,contacts)
+        dbutil.ins_res(host_name,cpu_core,mem_size,val_per,contacts)
     except:
         return 'error'
     else:
