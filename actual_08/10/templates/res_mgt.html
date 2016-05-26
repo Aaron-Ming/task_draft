@@ -130,29 +130,47 @@
   $(document).on('click', '.up-btn', function() {
     var user_id = $(this).attr('data-id')
     var host_name = $(this).attr('data-name')
-    $('#upresform').
-    $('#updateuserModal').attr('data-userid', user_id).modal('show')
+    var cpu_core = $(this).attr('data-cpu')
+    var mem_size = $(this).attr('data-mem')
+    var val_per = $(this).attr('data-val')
+    var contacts = $(this).attr('data-contacts')
+    $('#uphost_name').val(host_name)
+    $('#upcpu_core').val(cpu_core)
+    $('#upmem_size').val(mem_size)
+    $('#upval_per').val(val_per)
+    $('#upcontacts').val(contacts)
+    $('#upresModal').attr('data-host_name', host_name)
+    $('#upresModal').attr('data-cpu_core', cpu_core)
+    $('#upresModal').attr('data-mem_size', mem_size)
+    $('#upresModal').attr('data-val_per', val_per)
+    $('#upresModal').attr('data-contacts', contacts)
+    $('#upresModal').attr('data-userid', user_id).modal('show')
   })
 
-  $('#updateuserModal').find('.reBtn').on('click', function() {
-    var oldpwd = $('#updatepwdform').find('[name="oldpwd"]').val()
-    var newpwd = $('#updatepwdform').find('[name="newpwd"]').val()
-    var renewpwd = $('#updatepwdform').find('[name="renewpwd"]').val()
-    var userid = $('#updateuserModal').attr('data-userid')
-    console.log('/update_user?id=' + userid + '&uppwd=' + newpwd)
-    $.get('/update_user?id=' + userid + '&uppwd=' + newpwd, function(res) {
+  $('#upresModal').find('.upBtn').on('click', function() {
+    var userid = $('#upresModal').attr('data-userid')
+    var host_name = $('#uphost_name').val()
+    var cpu_core = $('#upcpu_core').val()
+    var mem_size = $('#upmem_size').val()
+    var val_per = $('#upval_per').val()
+    var contacts = $('#upcontacts').val()
+    var url = '/update_res?userid='+userid+'&'+$('#upresform').serialize()
+    // alert($('#upresform').serialize())
+    // console.log($('#upresform').serialize())
+    $.get(url, function(res){
       if (res == 'ok') {
-        swal('密码修改成功')
-        $('#updatepwdform')[0].reset()
-        $('#updateuserModal').modal('hide')
+        swal('信息修改成功')
+        $('#upresform')[0].reset()
+        $('#upresModal').modal('hide')
         getlist()
-      } else if (res == 'error') {
-        swal('密码修改失败')
+      }else if (res == 'error') {
+        swal('信息修改失败')
         getlist()
       }
     })
     return false
-  })
+    })
+
 
 
   function getlist() {

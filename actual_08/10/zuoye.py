@@ -129,6 +129,30 @@ def del_res():
     else:
         return 'ok'
 
+@app.route('/update_res')
+def update_res():
+    userid = request.args.get('userid')
+    host_name = request.args.get('host_name')
+    cpu_core = request.args.get('cpu_core')
+    mem_size = request.args.get('mem_size')
+    val_per = request.args.get('val_per')
+    contacts = request.args.get('contacts')
+    res_dict = {'userid':userid,
+                'host_name':host_name,
+                'cpu_core':cpu_core,
+                'mem_size':mem_size,
+                'val_per':val_per,
+                'contacts':contacts}
+    res_dict
+    return 'ok'
+    # try:
+    #     dbutil.update_user(uppwd,id)
+    # except:
+    #     return 'error'
+    # else:
+    #     return 'ok'
+
+
 @app.route('/logout')
 def logout():
     session.pop('user', None)
