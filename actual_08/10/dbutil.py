@@ -62,6 +62,7 @@ def del_user(id):
 
 def update_user(uppwd,id):
     sql = 'update user set password="%s" where id=%s' % (uppwd,id)
+    # print sql
     execute(sql)
     return True
 
@@ -84,7 +85,7 @@ def del_res(id):
     execute(sql)
     return True
 
-def update_user(key,val,id):
+def update_res(key,val,id):
     sql = 'update res_mgt set %s="%s" where id=%s' % (key,val,id)
     execute(sql)
     return True

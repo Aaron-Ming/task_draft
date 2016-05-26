@@ -66,6 +66,7 @@ def user_page():
 def update_user():
     uppwd = request.args.get('uppwd')
     id = request.args.get('id')
+    # print uppwd, id
     try:
         dbutil.update_user(uppwd,id)
     except:
