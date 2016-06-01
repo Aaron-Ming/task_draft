@@ -14,7 +14,11 @@
     <script type="text/javascript" src="/static/jquery-ui/jquery-ui.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/sweetalert/dist/sweetalert.min.js"></script>
-    
+    <style>
+      .bakgroud {
+                background:red;
+      }
+    </style>
 
   </head>
   <body>   
@@ -35,13 +39,14 @@
         </div>
       </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid" id="left-top">
       <div class="row">
         <div class="col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-            <li class="active"><a href="/user_page">用户管理</a></li>
-            <li><a href="/log_page">日志浏览</a></li>
-            <li><a href="/res_mgt">资源管理</a></li>
+            <!-- <li class="active" data-tag="user"><a href="/user_page">用户管理</a></li> -->
+            <li data-tag="user"><a href="/user_page">用户管理</a></li>
+            <li data-tag="log"><a href="/log_page">日志浏览</a></li>
+            <li data-tag="res"><a href="/res_mgt">资源管理</a></li>
           </ul>
          
         </div>
@@ -52,5 +57,14 @@
         </div>
       </div>
     </div>
+    <script>
+    var pathname = location.pathname
+    $.each($('.nav-sidebar').find('a'),function(index,value){
+      if($(value).attr('href')==pathname){
+        $(value).parent().addClass('active')
+      }
+    })
+
+    </script>
   </body>
 </html>

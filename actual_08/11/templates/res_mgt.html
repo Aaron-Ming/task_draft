@@ -12,7 +12,7 @@
         <h4 class="modal-title">请填写资源规格参数</h4>
       </div>
       <div class="modal-body">
-        <form class="form-inline animated bounceInLeft" id="addresform" action='/add_res'>
+        <form class="form-inline animated bounceInLeft" id="addresform" action='/add_res' method='POST'>
           <div class="form-group" style="margin-top:5px">
             <label for="host_name" class="add_res_form_wid">主机名</label>
             <input type="text" name="host_name" class="form-control" id="host_name" placeholder="Hostname">
@@ -53,7 +53,7 @@
         <h4 class="modal-title">请填写资源规格参数</h4>
       </div>
       <div class="modal-body">
-        <form class="form-inline animated bounceInLeft" id="upresform" action='/update_res'>
+        <form class="form-inline animated bounceInLeft" id="upresform" action='/update_res' method='POST'>
           <div class="form-group" style="margin-top:5px">
             <label for="uphost_name" class="add_res_form_wid">主机名</label>
             <input type="text" name="host_name" class="form-control" id="uphost_name" placeholder="Hostname">
@@ -61,12 +61,12 @@
           <div class="form-group" style="margin-top:5px">
             <label for="upcpu_core" class="add_res_form_wid">CPU</label>
             <input type="text" name="cpu_core" class="form-control" id="upcpu_core" placeholder="Cpu numbers">
-            <div id="cpu_slider"></div>
+            <div id="upcpu_slider"></div>
           </div>
           <div class="form-group" style="margin-top:5px">
             <label for="upmem_size" class="add_res_form_wid">内存</label>
             <input type="text" name="mem_size" class="form-control" id="upmem_size" placeholder="Memory size">
-            <div id="mem_slider"></div>
+            <div id="upmem_slider"></div>
           </div>
           <div class="form-group" style="margin-top:5px">
             <label for="upval_per" class="add_res_form_wid">过期时间</label>
@@ -106,9 +106,18 @@
 
 <script>
   $('#addresModal').find('.addBtn').on('click', function() {
-    var url = '/add_res?' + $('#addresform').serialize()
-    console.log(url)
-    $.get(url, function(res) {
+    // var url = '/add_res?' + $('#addresform').serialize()
+    // console.log(url)
+    // $.get(url, function(res) {
+    var addres_postd = {
+                        host_name:$('#host_name').val(),
+                        cpu_core:$('#cpu_core').val(),
+                        mem_size:$('#mem_size').val(),
+                        val_per:$('#val_per').val(),
+                        contacts:$('#contacts').val()
+    }
+    // console.log(addres_postd)
+    $.post('/add_res', addres_postd, function(res){
       if (res == 'ok') {
         $('#addresform')[0].reset()
         $('#addresModal').modal('hide')
@@ -154,10 +163,20 @@
     // var mem_size = $('#upmem_size').val()
     // var val_per = $('#upval_per').val()
     // var contacts = $('#upcontacts').val()
-    var url = '/update_res?userid='+userid+'&'+$('#upresform').serialize()
+    // var url = '/update_res?userid='+userid+'&'+$('#upresform').serialize()
     // alert($('#upresform').serialize())
     // console.log($('#upresform').serialize())
-    $.get(url, function(res){
+    // $.get(url, function(res){
+    var upres_postd = {
+                        host_name:$('#uphost_name').val(),
+                        cpu_core:$('#upcpu_core').val(),
+                        mem_size:$('#upmem_size').val(),
+                        val_per:$('#upval_per').val(),
+                        contacts:$('#upcontacts').val(),
+                        userid:userid
+    }
+    console.log(upres_postd)
+    $.post('/update_res', upres_postd, function(res) {
       if (res == 'ok') {
         swal('信息修改成功')
         $('#upresform')[0].reset()
@@ -165,6 +184,8 @@
         getlist()
       }else if (res == 'error') {
         swal('信息修改失败')
+        $('#upresform')[0].reset()
+        $('#upresModal').modal('hide')
         getlist()
       }
     })
@@ -203,7 +224,8 @@
         closeOnConfirm: false
       },
       function() {
-        $.get('/del_res?id=' + id, function(res) {
+        // $.get('/del_res?id=' + id, function(res) {
+        $.post('/del_res', {id:id}, function(res){
           if (res == 'ok') {
             swal('删除成功')
             getlist()
@@ -253,6 +275,54 @@
     })
     return false
   });
-</script>
 
+
+  $('#upcpu_core').on('click', function() {
+    $('#upcpu_slider').slider({
+      range: 'min',
+      value: 2,
+      min: 2,
+      max: 32,
+      slide: function(event, ui) {
+        $('#upcpu_core').val(ui.value);
+      }
+    });
+    $("#upcpu_core").val($('#upcpu_slider').slider("value"));
+    return false
+  });
+
+  $('#upmem_size').on('click', function() {
+    $('#upmem_slider').slider({
+      range: 'min',
+      value: 2,
+      min: 2,
+      max: 32,
+      slide: function(event, ui) {
+        $('#upmem_size').val(ui.value + "G");
+      }
+    });
+    $("#upmem_size").val($('#upmem_slider').slider("value") + "G");
+    return false
+  });
+
+  $('#upval_per').on('click', function() {
+    $("#upval_per").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      showButtonPanel: true,
+      dateFormat: "yy-mm-dd"
+    })
+    return false
+  });
+
+</script>
+<!-- 
+<script>
+$('#left-top').find('[data-tag="res"]').on('click', function(){
+        $(this).addClass('active')
+        // $('left-top').find('[data-tag="log"]').toggleClass('active')
+        // $('left-top').find('[data-tag="user"]').toggleClass('active')
+      })
+</script>
+ -->
 {% endblock %}
