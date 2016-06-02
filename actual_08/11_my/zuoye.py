@@ -146,12 +146,12 @@ def del_res():
 
 @app.route('/update_res', methods=['POST'])
 def update_res():
-    userid = request.form.get('userid')
-    host_name = request.form.get('host_name')
-    cpu_core = request.form.get('cpu_core')
-    mem_size = request.form.get('mem_size')
-    val_per = request.form.get('val_per')
-    contacts = request.form.get('contacts')
+    userid = request.form.get('userid',None)
+    host_name = request.form.get('host_name',None)
+    cpu_core = request.form.get('cpu_core',None)
+    mem_size = request.form.get('mem_size',None)
+    val_per = request.form.get('val_per',None)
+    contacts = request.form.get('contacts',None)
     print userid,host_name,cpu_core,mem_size,val_per,contacts
     # res_dict = {'userid':userid,
     #             'host_name':host_name,
