@@ -14,7 +14,7 @@ class DB():
         self.cursor = self.con.cursor()
         self.con.autocommit(True)
     def execute(self,sql):
-        # print sql
+        print sql
         try:
             self.cursor.execute(sql)
         except Exception, err:
@@ -27,7 +27,7 @@ class DB():
             self.connect()
             self.cursor.execute(sql)
         res = self.cursor.fetchall()
-        # print res
+        print res
         return res
 
 # con = None
