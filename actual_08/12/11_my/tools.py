@@ -11,7 +11,6 @@ def random_str(randomlength=8):
     return ''.join(a[:randomlength])
 
 def log_coll():
-
     log_addr = 'E:\\Git\\actual_08_homework\\08\\suli\\08.Homework\\log.log'
     handle = {}
     for line in open(log_addr):

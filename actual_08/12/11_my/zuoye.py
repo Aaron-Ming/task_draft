@@ -187,11 +187,24 @@ def httpcount():
 
 @app.route('/log_pie')
 def log_pie():
-    return render_template('log_map.html')
+    return render_template('log_pie.html')
+
+@app.route('/httpscatter')
+def httpscatter():
+    sql = 'select ip,status,geox,geoy,count from ipmap order by id'
+    log_data = db.execute(sql)
+    res = {'data':[],'max_val':1000,'min_val':0}
+    for bar in log_data:
+        res['data'].append({'name':bar[0],'value':[bar[2],bar[3],bar[4]]})
+    return json.dumps(res)
 
 @app.route('/log_scatter')
 def log_scatter():
     return render_template('log_scatter.html')
+
+@app.route('/log_map')
+def log_map():
+    return render_template('log_map.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
