@@ -202,6 +202,30 @@ def httpscatter():
 def log_scatter():
     return render_template('log_scatter.html')
 
+@app.route('/httpmap')
+def httpmap():
+    res = {'ipgeo':{}, 'normal':[], 'failed':[], 'keep':[]}
+    sql = 'select ip,status,geox,geoy,count from ipmap order by id'
+    log_data = db.execute(sql)
+    res['ipgeo']['200'] = ['116.4551','40.2539']
+    res['ipgeo']['404'] = ['121.4648','31.2891']
+    res['ipgeo']['304'] = ['113.5107','23.2196']
+    for bar in log_data:
+        if int(bar[4]) > 200:
+            continue
+        res['ipgeo'][bar[0]] = [bar[2],bar[3]]
+
+        if bar[1] == '200':
+            res['normal'].append([{'name':bar[1]},{'name':bar[0],'value':bar[4]}])
+        elif bar[1] == '404':
+            res['failed'].append([{'name':bar[1]},{'name':bar[0],'value':bar[4]}])
+        elif bar[1] == '304':
+            res['keep'].append([{'name':bar[1]},{'name':bar[0],'value':bar[4]}])
+
+    return json.dumps(res)
+
+
+
 @app.route('/log_map')
 def log_map():
     return render_template('log_map.html')
