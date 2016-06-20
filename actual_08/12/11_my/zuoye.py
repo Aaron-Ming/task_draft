@@ -214,14 +214,12 @@ def httpmap():
         if int(bar[4]) > 200:
             continue
         res['ipgeo'][bar[0]] = [bar[2],bar[3]]
-
         if bar[1] == '200':
             res['normal'].append([{'name':bar[1]},{'name':bar[0],'value':bar[4]}])
         elif bar[1] == '404':
             res['failed'].append([{'name':bar[1]},{'name':bar[0],'value':bar[4]}])
         elif bar[1] == '304':
             res['keep'].append([{'name':bar[1]},{'name':bar[0],'value':bar[4]}])
-
     return json.dumps(res)
 
 
