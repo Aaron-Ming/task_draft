@@ -61,11 +61,11 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="palette">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class='active'><a href="#">用户管理</a></li>
+            <li><a href="#">用户管理</a></li>
             <li><a href="/vm_assets">虚拟机管理</a></li>
             <li><a href="#">物理机管理</a></li>
             <li><a href="#">小型机管理</a></li>
@@ -77,6 +77,14 @@
         </div>
       </div>
     </div>
+<script>
+  var pathname = location.pathname
+  $.each($('#palette').find('a'), function(index,value){
+    if($(value).attr('href')==pathname){
+      $(value).parent().addClass('active')
+    }
 
+  })
+</script>
   </body>
 </html>

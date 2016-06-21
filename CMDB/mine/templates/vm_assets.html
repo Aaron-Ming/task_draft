@@ -31,9 +31,10 @@
         <th>创建日期</th>
         <th>拟定回收日期</th>
         <th>备注</th>
+        <th>操作</th>
       </tr>
     </thead>
-    <tbody class='width_auto_adaptation'>
+    <!-- <tbody id='tbody-content' class='width_auto_adaptation'>
       <tr>
         <th>1</th>
         <th>192.168.1.19</th>
@@ -53,6 +54,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th>运行数据库</th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>2</th>
@@ -72,7 +74,8 @@
         <th>13311023510</th>
         <th>2015-1-20</th>
         <th>2020-3-4</th>
-        <th></th>
+        <th>Oracle 12C</th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -93,6 +96,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -113,6 +117,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -133,6 +138,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -153,6 +159,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -173,6 +180,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -193,6 +201,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -213,6 +222,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -233,6 +243,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -253,6 +264,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -273,6 +285,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -293,6 +306,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -313,6 +327,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -333,6 +348,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -353,6 +369,7 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
       <tr>
         <th>3</th>
@@ -373,14 +390,76 @@
         <th>2015-1-20</th>
         <th>2020-3-4</th>
         <th></th>
+        <th>删除、更新</th>
       </tr>
-
+    </tbody> -->
+    <tbody id='tbody-content' class='width_auto_adaptation'>
+        {% for data in get_vmassets %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{data['ip_addr']}}</td>
+            <td>{{data['app_name']}}</td>
+            <td>{{data['hostname']}}</td>
+            <td>{{data['vc_name']}}</td>
+            <td>{{data['cpu']}}</td>
+            <td>{{data['memory']}}</td>
+            <td>{{data['disk']}}</td>
+            <td>{{data['os']}}</td>
+            <td>{{data['status']}}</td>
+            <td>{{data['office_name']}}</td>
+            <td>{{data['office_contact']}}</td>
+            <td>{{data['office_phone']}}</td>
+            <td>{{data['object_contact']}}</td>
+            <td>{{data['object_phone']}}</td>
+            <td>{{data['create_date']}}</td>
+            <td>{{data['end_date']}}</td>
+            <td>{{data['notes']}}</td>
+            <td><button data-id="{{data['id']}}" class="btn btn-danger btn-xs delete-btn">删除</button><button type="submit" data-id="{{data['id']}}" style="margin-left:10px;" class="btn btn-warning btn-xs reset-btn" data-toggle="modal" data-target="#update-vmassets-Modal">重置</button></td>
+        </tr>
+        {% endfor %}
     </tbody>
   </table>
 </div>
 
 <script>
 
+// function get_vmassets(){
+//     var res = ''
+//     $.getJSON('/vm_assets_data', function(res){
+
+//         $.each(res, function(index, value){
+
+//             res += '<tr><td>' + (index + 1) + '</td>'
+//             res += '<td>' + value.ip_addr +'</td>'
+//             res += '<td>' + value.app_name +'</td>'
+//             res += '<td>' + value.hostname +'</td>'
+//             res += '<td>' + value.vc_name +'</td>'
+//             res += '<td>' + value.cpu +'</td>'
+//             res += '<td>' + value.memory +'</td>'
+//             res += '<td>' + value.disk +'</td>'
+//             res += '<td>' + value.os +'</td>'
+//             res += '<td>' + value.status +'</td>'
+//             res += '<td>' + value.office_name +'</td>'
+//             res += '<td>' + value.office_contact +'</td>'
+//             res += '<td>' + value.office_phone +'</td>'
+//             res += '<td>' + value.object_contact +'</td>'
+//             res += '<td>' + value.object_phone +'</td>'
+//             res += '<td>' + value.create_date +'</td>'
+//             res += '<td>' + value.end_date +'</td>'
+//             res += '<td>' + value.notes +'</td>'
+//             res += '<td>删除、重置</td>'
+
+//             // res += '<td><button data-id="' + value.id + '" class="btn btn-danger btn-xs delete-btn">删除</button><button type="submit" data-id="' + value.id + '" style="margin-left:10px;" class="btn btn-warning btn-xs reset-btn" data-toggle="modal" data-target="#update-vmassets-Modal">重置</button></td></tr>'
+//         })
+//         // console.log(res)
+//         $('#tbody-content').html(res)
+//     })
+// }
+// get_vmassets()
+
+</script>
+
+<script>
 $(document).ready(function() {
    $('#data-table').DataTable({
       'dom': '<"float_left"f>r<"float_right"l>tip',  
@@ -407,5 +486,7 @@ $(document).ready(function() {
         'scrollXInner': "150%"
    });
 } );
+
+
 </script>
 {% endblock %}
