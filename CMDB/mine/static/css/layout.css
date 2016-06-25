@@ -100,7 +100,7 @@ body {
         }
         .form-signin-heading {
           margin-bottom: 10px;
-          color: yellow;
+          color: black;
         }
         .divcenter {
             margin-left: auto;
@@ -110,3 +110,14 @@ body {
 		.add_res_form_wid {
           width: 80px;
         }
+    .login-body {
+      padding-top: 50px;
+      padding-bottom: 40px;
+      background-color: #eee;
+    }
+
+    .form-signin {
+      max-width: 330px;
+      padding: 15px;
+      margin: 0 auto;
+    }

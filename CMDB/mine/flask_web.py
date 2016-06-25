@@ -1,6 +1,6 @@
 #encoding=utf-8
 #
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,session,redirect,url_for
 from config import db_config,page_config
 from dbutil.dbutil import DB
 import json
@@ -15,17 +15,40 @@ app.secret_key = os.urandom(24)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
-    return '这是登录页面'
+    sql = 'select username,password from user'
+    res = db.execute(sql)
+    user_info = {}
+    for i in res:
+        user_info[i['username']] = i['password']
+    print user_info
+    print type(user_info)
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        user = request.form.get('user')
+        pwd = request.form.get('pwd')
+        print user,pwd
+        if user not in user_info:
+            return '用户不存在!'
+        elif user_info[user] == pwd:
+            session['username'] = user
+            return redirect(url_for('user'))
+        else:
+            return '密码错误！'
 
+
+# create table user (id int(4) primary key not null auto_increment, username varchar(255) not null, password varchar(255) not null);
 @app.route('/user')
 def user():
-    return '这个是用户目录'
+    sql = 'select * from user'
+    res = db.execute(sql)
+    return render_template('user_info.html', user_info=res)
 
-@app.route('/vm_assets_data')
-def vm_assets_data():
-    sql = 'select * from vm_assets'
-    res = json.dumps(db.execute(sql))
-    return res
+# @app.route('/vm_assets_data')
+# def vm_assets_data():
+#     sql = 'select * from vm_assets'
+#     res = json.dumps(db.execute(sql))
+#     return res
 
 @app.route('/vm_assets')
 def vm_assets():
