@@ -7,7 +7,8 @@ import json
 import sys,os
 
 # print db_config
-
+reload(sys)
+sys.setdefaultencoding('utf-8')
 db = DB(host=db_config['host'], mysql_user=db_config['user'], mysql_pass=db_config['passwd'], mysql_db=db_config['db'])
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -71,9 +72,38 @@ def vm_assets_del():
     else:
         return 'ok'
 
-@app.route('/vm_assets/update')
+@app.route('/vm_assets/update', methods=['POST'])
 def vm_assets_update():
-    return True
+    print request.form
+    id = request.form.get('id', None)
+    # print 'id'+id
+    update_ip_addr = request.form.get('update_ip_addr',None)
+    print 'Theis ip' + update_ip_addr
+    update_app_name = request.form.get('update_app_name',None)
+    update_hostname = request.form.get('update_hostname',None)
+    update_vc_name = request.form.get('update_vc_name',None)
+    update_cpu = request.form.get('update_cpu',None)
+    update_memory = request.form.get('update_memory',None)
+    update_disk = request.form.get('update_disk',None)
+    update_os = request.form.get('update_os',None)
+    update_status = request.form.get('update_status',None)
+    update_office_name = request.form.get('update_office_name',None)
+    update_office_contact = request.form.get('update_office_contact',None)
+    update_office_phone = request.form.get('update_office_phone',None)
+    update_object_contact = request.form.get('update_object_contact',None)
+    update_object_phone = request.form.get('update_object_phone',None)
+    update_create_date = request.form.get('update_create_date',None)
+    update_end_date = request.form.get('update_end_date',None)
+    update_notes = request.form.get('update_notes',None)
+
+    sql = 'update vm_assets set ip_addr="%s",app_name="%s",hostname="%s",vc_name="%s",cpu="%s",memory="%s", disk="%s", os="%s", status="%s", office_name="%s", office_contact="%s", office_phone="%s", object_contact="%s", object_phone="%s", create_date="%s", end_date="%s", notes="%s" where id=%s' % (update_ip_addr, update_app_name, update_hostname, update_vc_name, update_cpu, update_memory, update_disk, update_os, update_status, update_office_name, update_office_contact, update_office_phone, update_object_contact, update_object_phone, update_create_date, update_end_date, update_notes, id)
+    print sql
+    try:
+        db.execute(sql)
+    except:
+        return 'error'
+    else:
+        return 'ok'
 
 @app.route('/layout')
 def layout():

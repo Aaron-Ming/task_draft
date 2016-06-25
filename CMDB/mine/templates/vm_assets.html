@@ -94,6 +94,94 @@
   </div>
 </div>
 
+<div id="update-vmassets-Modal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">请填写资源规格参数</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline animated bounceInLeft" id="update-vmassets-form" action='/vm_assets/update' method='POST'>
+
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_ip_addr" class="add_res_form_wid">IP地址</label>
+            <input type="text" name="update_ip_addr" class="form-control" id="update_ip_addr" placeholder="update_ip_addr">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_app_name" class="add_res_form_wid">应用系统</label>
+            <input type="text" name="update_app_name" class="form-control" id="update_app_name" placeholder="update_app_name">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_hostname" class="add_res_form_wid">主机名</label>
+            <input type="text" name="update_hostname" class="form-control" id="update_hostname" placeholder="update_hostname">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_vc_name" class="add_res_form_wid">VC名称</label>
+            <input type="text" name="update_vc_name" class="form-control" id="update_vc_name" placeholder="update_vc_name">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_cpu" class="add_res_form_wid">CPU</label>
+            <input type="text" name="update_cpu" class="form-control" id="update_cpu" placeholder="update_cpu">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_memory" class="add_res_form_wid">内存</label>
+            <input type="text" name="update_memory" class="form-control" id="update_memory" placeholder="update_memory">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_disk" class="add_res_form_wid">硬盘</label>
+            <input type="text" name="update_disk" class="form-control" id="update_disk" placeholder="update_disk">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_os" class="add_res_form_wid">操作系统</label>
+            <input type="text" name="update_os" class="form-control" id="update_os" placeholder="update_os">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_status" class="add_res_form_wid">使用状态</label>
+            <input type="text" name="update_status" class="form-control" id="update_status" placeholder="update_status">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_office_name" class="add_res_form_wid">负责处室</label>
+            <input type="text" name="update_office_name" class="form-control" id="update_office_name" placeholder="update_office_name">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_office_contact" class="add_res_form_wid">行方负责人</label>
+            <input type="text" name="update_office_contact" class="form-control" id="update_office_contact" placeholder="update_office_contact">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_office_phone" class="add_res_form_wid">行方电话</label>
+            <input type="text" name="update_office_phone" class="form-control" id="update_office_phone" placeholder="update_office_phone">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_object_contact" class="add_res_form_wid">项目负责人</label>
+            <input type="text" name="update_object_contact" class="form-control" id="update_object_contact" placeholder="update_object_contact">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_object_phone" class="add_res_form_wid">项目组电话</label>
+            <input type="text" name="update_object_phone" class="form-control" id="update_object_phone" placeholder="update_object_phone">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_create_date" class="add_res_form_wid">创建日期</label>
+            <input type="text" name="update_create_date" class="form-control" id="update_create_date" placeholder="update_create_date">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_end_date" class="add_res_form_wid">回收日期</label>
+            <input type="text" name="update_end_date" class="form-control" id="update_end_date" placeholder="update_end_date">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_notes" class="add_res_form_wid">备注</label>
+            <input type="text" name="update_notes" class="form-control" id="update_notes" placeholder="update_notes">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary update-btn">保存并修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="table-responsive scroll_layer">
   <table class="table table-striped display" cellspacing="0" id="data-table" width="100%">
     <thead class='width_auto_adaptation fixed'>
@@ -141,45 +229,46 @@
             <td>{{data['create_date']}}</td>
             <td>{{data['end_date']}}</td>
             <td>{{data['notes']}}</td>
-            <td><button data-id="{{data['id']}}" class="btn btn-danger btn-xs delete-vmassets-btn">删除</button><button type="submit" data-id="{{data['id']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-vmassets-btn" data-toggle="modal" data-target="#update-vmassets-Modal">更新</button></td>
+            <td><button data-id="{{data['id']}}" class="btn btn-danger btn-xs delete-vmassets-btn">删除</button><button type="submit" data-id="{{data['id']}}" data-ip-addr="{{data['ip_addr']}}" data-app-name="{{data['app_name']}}" data-hostname="{{data['hostname']}}" data-vc-name="{{data['vc_name']}}" data-cpu="{{data['cpu']}}" data-memory="{{data['memory']}}" data-disk="{{data['disk']}}" data-os="{{data['os']}}" data-status="{{data['status']}}" data-office-name="{{data['office_name']}}" data-office-contact="{{data['office_contact']}}" data-office-phone="{{data['office_phone']}}" data-object-contact="{{data['object_contact']}}" data-object-phone="{{data['object_phone']}}" data-create-date="{{data['create_date']}}" data-end-date="{{data['end_date']}}" data-notes="{{data['notes']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-vmassets-btn" data-toggle="modal" data-target="#update-vmassets-Modal">更新</button></td>
         </tr>
         {% endfor %}
     </tbody>
   </table>
 </div>
 
+
 <script>
+    // ajax加载方法，然后加载的列表对不其，需要找大神协助
+    // function get_vmassets(){
+    //     var res = ''
+    //     $.getJSON('/vm_assets_data', function(res){
+    //         $.each(res, function(index, value){
+    //             res += '<tr><td>' + (index + 1) + '</td>'
+    //             res += '<td>' + value.ip_addr +'</td>'
+    //             res += '<td>' + value.update_app_name +'</td>'
+    //             res += '<td>' + value.hostname +'</td>'
+    //             res += '<td>' + value.vc_name +'</td>'
+    //             res += '<td>' + value.cpu +'</td>'
+    //             res += '<td>' + value.memory +'</td>'
+    //             res += '<td>' + value.disk +'</td>'
+    //             res += '<td>' + value.os +'</td>'
+    //             res += '<td>' + value.status +'</td>'
+    //             res += '<td>' + value.office_name +'</td>'
+    //             res += '<td>' + value.office_contact +'</td>'
+    //             res += '<td>' + value.office_phone +'</td>'
+    //             res += '<td>' + value.object_contact +'</td>'
+    //             res += '<td>' + value.object_phone +'</td>'
+    //             res += '<td>' + value.create_date +'</td>'
+    //             res += '<td>' + value.end_date +'</td>'
+    //             res += '<td>' + value.notes +'</td>'
 
-// function get_vmassets(){
-//     var res = ''
-//     $.getJSON('/vm_assets_data', function(res){
-//         $.each(res, function(index, value){
-//             res += '<tr><td>' + (index + 1) + '</td>'
-//             res += '<td>' + value.ip_addr +'</td>'
-//             res += '<td>' + value.app_name +'</td>'
-//             res += '<td>' + value.hostname +'</td>'
-//             res += '<td>' + value.vc_name +'</td>'
-//             res += '<td>' + value.cpu +'</td>'
-//             res += '<td>' + value.memory +'</td>'
-//             res += '<td>' + value.disk +'</td>'
-//             res += '<td>' + value.os +'</td>'
-//             res += '<td>' + value.status +'</td>'
-//             res += '<td>' + value.office_name +'</td>'
-//             res += '<td>' + value.office_contact +'</td>'
-//             res += '<td>' + value.office_phone +'</td>'
-//             res += '<td>' + value.object_contact +'</td>'
-//             res += '<td>' + value.object_phone +'</td>'
-//             res += '<td>' + value.create_date +'</td>'
-//             res += '<td>' + value.end_date +'</td>'
-//             res += '<td>' + value.notes +'</td>'
-
-//             res += '<td><button data-id="' + value.id + '" class="btn btn-danger btn-xs delete-vmassets-btn">删除</button><button type="submit" data-id="' + value.id + '" style="margin-left:10px;" class="btn btn-warning btn-xs update-vmassets-btn" data-toggle="modal" data-target="#update-vmassets-Modal">重置</button></td></tr>'
-//         })
-//         // console.log(res)
-//         $('#tbody-content').html(res)
-//     })
-// }
-// get_vmassets()
+    //             res += '<td><button data-id="' + value.id + '" class="btn btn-danger btn-xs delete-vmassets-btn">删除</button><button type="submit" data-id="' + value.id + '" style="margin-left:10px;" class="btn btn-warning btn-xs update-vmassets-btn" data-toggle="modal" data-target="#update-vmassets-Modal">重置</button></td></tr>'
+    //         })
+    //         // console.log(res)
+    //         $('#tbody-content').html(res)
+    //     })
+    // }
+    // get_vmassets()
 
 </script>
 
@@ -271,6 +360,92 @@ $(document).on('click', '.delete-vmassets-btn', function() {
         })
     return false
 })
+$(document).on('click', '.update-vmassets-btn', function() {
+    var vmassets_id = $(this).attr('data-id')
+
+    var update_ip_addr = $(this).attr('data-ip-addr')
+    var update_app_name = $(this).attr('data-app-name')
+    var update_hostname = $(this).attr('data-hostname')
+    var update_vc_name = $(this).attr('data-vc-name')
+    var update_cpu = $(this).attr('data-cpu')
+    var update_memory = $(this).attr('data-memory')
+    var update_disk = $(this).attr('data-disk')
+    var update_os = $(this).attr('data-os')
+    var update_status = $(this).attr('data-status')
+    var update_office_name = $(this).attr('data-office-name')
+    var update_office_contact = $(this).attr('data-office-contact')
+    var update_office_phone = $(this).attr('data-office-phone')
+    var update_object_contact = $(this).attr('data-object-contact')
+    var update_object_phone = $(this).attr('data-object-phone')
+    var update_create_date = $(this).attr('data-create-date')
+    var update_end_date = $(this).attr('data-end-date')
+    var update_notes = $(this).attr('data-notes')
+
+
+    $('#update_ip_addr').val(update_ip_addr)
+    $('#update_app_name').val(update_app_name)
+    $('#update_hostname').val(update_hostname)
+    $('#update_vc_name').val(update_vc_name)
+    $('#update_cpu').val(update_cpu)
+    $('#update_memory').val(update_memory)
+    $('#update_disk').val(update_disk)
+    $('#update_os').val(update_os)
+    $('#update_status').val(update_status)
+    $('#update_office_name').val(update_office_name)
+    $('#update_office_contact').val(update_office_contact)
+    $('#update_office_phone').val(update_office_phone)
+    $('#update_object_contact').val(update_object_contact)
+    $('#update_object_phone').val(update_object_phone)
+    $('#update_create_date').val(update_create_date)
+    $('#update_end_date').val(update_end_date)
+    $('#update_notes').val(update_notes)
+
+
+    // $('#update-vmassets-Modal').attr('data-update_ip_addr', update_ip_addr)
+
+    $('#update-vmassets-Modal').attr('data-id', vmassets_id).modal('show')
+    })
+$('#update-vmassets-Modal').find('.update-btn').on('click', function() {
+    var id = $('#update-vmassets-Modal').attr('data-id')
+    // console.log(id)
+    var vmassets_info_post = {
+        update_ip_addr: $('#update_ip_addr').val(),
+        update_app_name: $('#update_app_name').val(),
+        update_hostname: $('#update_hostname').val(),
+        update_vc_name: $('#update_vc_name').val(),
+        update_cpu: $('#update_cpu').val(),
+        update_memory: $('#update_memory').val(),
+        update_disk: $('#update_disk').val(),
+        update_os: $('#update_os').val(),
+        update_status: $('#update_status').val(),
+        update_office_name: $('#update_office_name').val(),
+        update_office_contact: $('#update_office_contact').val(),
+        update_office_phone: $('#update_office_phone').val(),
+        update_object_contact: $('#update_object_contact').val(),
+        update_object_phone: $('#update_object_phone').val(),
+        update_create_date: $('#update_create_date').val(),
+        update_end_date: $('#update_end_date').val(),
+        update_notes: $('#update_notes').val(),
+        id: id
+    }
+
+    console.log(vmassets_info_post.update_status)
+    $.post('/vm_assets/update', vmassets_info_post, function(res) {
+      if (res == 'ok') {
+        swal('信息修改成功')
+        $('#update-vmassets-form')[0].reset()
+        $('#update-vmassets-Modal').modal('hide')
+        // 实现页面自动跳转
+        location.href = "/vm_assets"
+      }else if (res == 'error') {
+        swal('信息修改失败')
+        $('#update-vmassets-form')[0].reset()
+        $('#update-vmassets-Modal').modal('hide')
+
+      }
+    })
+    return false
+    })
 
 
 </script>
