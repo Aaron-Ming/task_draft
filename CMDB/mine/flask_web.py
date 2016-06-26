@@ -44,6 +44,47 @@ def user():
     res = db.execute(sql)
     return render_template('user_info.html', user_info=res)
 
+@app.route('/user/add', methods=['POST'])
+def user_add():
+    username = request.form.get('username', None)
+    password = request.form.get('password', None)
+    role = request.form.get('role', None)
+
+    sql = 'insert into user(username,password,role) values("%s","%s","%s")' % (username,password,role)
+    try:
+        db.execute(sql)
+    except:
+        return 'error'
+    else:
+        return 'ok'
+
+@app.route('/user/update', methods=['POST'])
+def user_update():
+    id = request.form.get('id', None)
+    password = request.form.get('update_password', None)
+    role = request.form.get('update_role', None)
+
+    sql = 'update user set password="%s", role="%s" where id="%s"' % (password,role,id)
+    # print sql
+    try:
+        db.execute(sql)
+    except:
+        return 'error'
+    else:
+        return 'ok'
+
+@app.route('/user/delete', methods=['POST'])
+def user_delete():
+    id = request.form.get('id', None)
+
+    sql = 'delete from user where id="%s"' % (id)
+    try:
+        db.execute(sql)
+    except:
+        return 'error'
+    else:
+        return 'ok'
+
 # @app.route('/vm_assets_data')
 # def vm_assets_data():
 #     sql = 'select * from vm_assets'

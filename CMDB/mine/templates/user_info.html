@@ -10,6 +10,67 @@
 {% block data %}
 <h3 class="sub-header">用户管理<br><br><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-user-Modal">新建用户</button></h3>
 
+<div id="add-user-Modal" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">新建用户</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline animated bounceInLeft" id="user-form" action='/vm-user/add' method='POST'>
+
+          <div class="form-group" style="margin-top:5px">
+            <label for="username" class="add_user_form_wid">用户名</label>
+            <input type="text" name="username" class="form-control" id="username" placeholder="用户名">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="password" class="add_user_form_wid">密码</label>
+            <input type="text" name="password" class="form-control" id="password" placeholder="密码">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="role" class="add_user_form_wid">角色</label>
+            <input type="text" name="role" class="form-control" id="role" placeholder="角色">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary add-user-btn">保存并添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="update-user-Modal" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">修改用户密码/角色</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline animated bounceInLeft" id="update-user-form" action='/user/update' method='POST'>
+
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_password" class="add_user_form_wid">密码</label>
+            <input type="text" name="update_password" class="form-control" id="update_password" placeholder="密码">
+          </div>
+          <div class="form-group" style="margin-top:5px">
+            <label for="update_role" class="add_user_form_wid">角色</label>
+            <input type="text" name="update_role" class="form-control" id="update_role" placeholder="角色">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary update-btn">保存并修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="table-responsive scroll_layer">
   <table class="table table-striped display" cellspacing="0" id="data-table" width="100%">
     <thead class='width_auto_adaptation fixed'>
@@ -36,7 +97,109 @@
     </tbody>
   </table>
 </div>
+<script>
+    $('#add-user-Modal').find('.add-user-btn').on('click', function() {
+        var username = $('#username').val()
+        var password = $('#password').val()
+        var role = $('#role').val()
+        var user_info_post = {
+            username: username,
+            password: password,
+            role: role
+        }
 
+    $.post('/user/add', user_info_post, function(res) {
+        if (res == 'ok') {
+            $('#user-form')[0].reset()
+            $('#add-user-Modal').modal('hide')
+            swal({
+                title: "666",
+                text: "恭喜恭喜，添加用户成功",
+                imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
+            })
+            // 实现页面自动跳转
+            location.href = "/user"
+
+
+        } else {
+            swal("用户添加失败", "用户名不能为空哦~", "error")
+
+        }
+    })
+    return false
+})
+
+
+    $(document).on('click', '.update-user-btn', function() {
+        var user_id = $(this).attr('data-userid')
+
+        var update_password = $(this).attr('data-password')
+        var update_role = $(this).attr('data-role')
+
+        $('#update_password').val(update_password)
+        $('#update_role').val(update_role)
+
+        // $('#update-vmassets-Modal').attr('data-update_ip_addr', update_ip_addr)
+
+        $('#update-user-Modal').attr('data-userid', user_id).modal('show')
+        })
+    $('#update-user-Modal').find('.update-btn').on('click', function() {
+        var id = $('#update-user-Modal').attr('data-userid')
+        // console.log(id)
+        var user_info_post = {
+            update_password: $('#update_password').val(),
+            update_role: $('#update_role').val(),
+            id: id
+        }
+
+        // console.log(user_info_post)
+        $.post('/user/update', user_info_post, function(res) {
+          if (res == 'ok') {
+            swal('用户信息修改成功')
+            $('#update-user-form')[0].reset()
+            $('#update-user-Modal').modal('hide')
+            // 实现页面自动跳转
+            location.href = "/user"
+          }else if (res == 'error') {
+            swal('信息修改失败')
+            $('#update-user-form')[0].reset()
+            $('#update-user-Modal').modal('hide')
+
+          }
+        })
+        return false
+    })
+
+
+
+$(document).on('click', '.delete-user-btn', function() {
+    var id = $(this).attr('data-userid')
+    // alert(id)
+    swal({
+            title: "确定删除吗？",
+            text: "删除后你将永远会失去Ta",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        },
+        function() {
+            // $.get('/del_res?id=' + id, function(res) {
+            $.post('/user/delete', {id: id}, function(res) {
+                if (res == 'ok') {
+                    swal('删除成功')
+                    // 实现页面自动跳转
+                    location.href = "/user"
+                } else if (res == 'error') {
+                    swal('删除失败')
+
+                }
+            })
+        })
+    return false
+})
+</script>
 
 <script>
     $(document).ready(function() {

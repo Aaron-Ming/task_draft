@@ -318,7 +318,7 @@ $('#add-vmassets-Modal').find('.add-vmassets-btn').on('click', function() {
             $('#add-vmassets-Modal').modal('hide')
             swal({
                 title: "666",
-                text: "恭喜恭喜，添加用户成功",
+                text: "恭喜恭喜，记录添加成功",
                 imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
             })
             // 实现页面自动跳转
@@ -326,7 +326,7 @@ $('#add-vmassets-Modal').find('.add-vmassets-btn').on('click', function() {
 
 
         } else {
-            swal("用户添加失败", "用户名不能为空哦~", "error")
+            swal("记录添加失败", "请联系管理员", "error")
 
         }
     })
@@ -335,7 +335,7 @@ $('#add-vmassets-Modal').find('.add-vmassets-btn').on('click', function() {
 
 $(document).on('click', '.delete-vmassets-btn', function() {
     var id = $(this).attr('data-id')
-    alert(id)
+    // alert(id)
     swal({
             title: "确定删除吗？",
             text: "删除后你将永远会失去Ta",
@@ -360,6 +360,7 @@ $(document).on('click', '.delete-vmassets-btn', function() {
         })
     return false
 })
+
 $(document).on('click', '.update-vmassets-btn', function() {
     var vmassets_id = $(this).attr('data-id')
 

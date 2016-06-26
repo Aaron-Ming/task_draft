@@ -110,6 +110,9 @@ body {
 		.add_res_form_wid {
           width: 80px;
         }
+    .add_user_form_wid {
+      width: 50px;
+    }
     .login-body {
       padding-top: 50px;
       padding-bottom: 40px;
