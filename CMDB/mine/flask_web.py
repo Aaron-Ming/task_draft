@@ -36,7 +36,6 @@ def login():
         else:
             return '密码错误！'
 
-
 # create table user (id int(4) primary key not null auto_increment, username varchar(255) not null, password varchar(255) not null);
 @app.route('/user')
 def user():

@@ -5,7 +5,7 @@ import time,random
 import datetime
 import MySQLdb
 import MySQLdb.cursors
-
+# 引入了mysqldb返回({},{})格式的值MySQLdb.cursors.DictCursor
 class DB: 
     conn = None
     db = None
